@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "Joomla 3.x base template",
   "main": "index.php",
-  "scripts": {},
+  "scripts": {
+    "build": "webpack --mode=production"
+  },
   "author": "Kenert Kulu",
   "license": "ISC",
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
 }
