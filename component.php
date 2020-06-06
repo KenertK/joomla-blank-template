@@ -17,7 +17,6 @@ require_once JPATH_THEMES . '/' . $this->template . '/logic.php';
 <body>
     Print Friendly View
     <jdoc:include type="modules" name="debug" />
-    <script src="<?php echo JPATH_THEMES . '/' . $this->template; ?>/dist/bundle.js"></script>
 </body>
 
 </html>

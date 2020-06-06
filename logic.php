@@ -2,11 +2,6 @@
 
 defined('_JEXEC') or die();
 
-// use Joomla\CMS\Factory;
-
-// $app = Factory::getApplication();
-// $doc = Factory::getDocument();
-
 // Removes the meta generator tag
 $this->setGenerator(null);
 

@@ -16,6 +16,7 @@ require_once JPATH_THEMES . '/' . $this->template . '/logic.php';
 
 <body>
     Error Page
+    <jdoc:include type="modules" name="debug" />
 </body>
 
 </html>
