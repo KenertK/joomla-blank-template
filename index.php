@@ -15,9 +15,8 @@ require_once JPATH_THEMES . '/' . $this->template . '/logic.php';
 </head>
 
 <body>
-    Online Mode
+    <p>Online Mode</p>
     <jdoc:include type="modules" name="debug" />
-    <script src="<?php echo JPATH_THEMES . '/' . $this->template; ?>/dist/bundle.js"></script>
 </body>
 
 </html>
