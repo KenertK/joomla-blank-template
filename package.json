@@ -1,0 +1,11 @@
+{
+  "name": "joomla-base-template",
+  "version": "1.0.0",
+  "description": "Joomla 3.x base template",
+  "main": "index.php",
+  "scripts": {},
+  "author": "Kenert Kulu",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {}
+}
