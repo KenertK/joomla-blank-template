@@ -9,8 +9,5 @@
   "author": "Kenert Kulu",
   "license": "ISC",
   "dependencies": {},
-  "devDependencies": {
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
-  }
+  "devDependencies": {}
 }
