@@ -1,4 +1,5 @@
-const { src, dest, parallel } = require("gulp");
+const path = require("path");
+const { src, dest, parallel, series } = require("gulp");
 const sass = require("gulp-sass");
 const postcss = require("gulp-postcss");
 const autoprefixer = require("autoprefixer");
@@ -7,17 +8,12 @@ const uglify = require("gulp-uglify");
 const browserSync = require("browser-sync").create();
 const zip = require("gulp-zip");
 const concat = require("gulp-concat");
+const ftp = require("vinyl-ftp");
 
 const copyAssets = () => src("src/assets/**").pipe(dest("dist/"));
 
 const prepareSass = () =>
-  src(
-    "src/sass/**/*.scss",
-    "!src/sass/main.scss",
-    "!src/sass/_bootstrap_overrides.scss",
-    "src/sass/main.scss",
-    "src/sass/_bootstrap_overrides.scss"
-  )
+  src("src/sass/**/*.scss")
     .pipe(sass({ outputStyle: "compressed" }))
     .pipe(postcss([autoprefixer()]))
     .pipe(postcss([flexboxfixer()]))
@@ -35,4 +31,44 @@ const getJsAndMinify = () =>
     .pipe(uglify())
     .pipe(dest("dist/"));
 
-exports.default = parallel(copyAssets, prepareSass, getJsAndMinify);
+const distGlobs = [
+  "**/*",
+  "!package.json",
+  "!package-lock.json",
+  "!.gitignore",
+  "!gulpfile.js",
+  "!src/**",
+  "!node_modules/**"
+];
+
+const zipTemplate = () =>
+  src(distGlobs)
+    .pipe(zip(path.basename(process.cwd()) + ".zip"))
+    .pipe(dest("../"));
+
+const transferFiles = () => {
+  const conn = ftp.create({
+    host: "mywebsite.tld",
+    user: "me",
+    password: "mypass",
+    parallel: 10
+  });
+
+  return src(globs, { base: ".", buffer: false })
+    .pipe(conn.newer("/public_html"))
+    .pipe(conn.dest("/public_html"));
+};
+
+const serveSite = () => {
+  browserSync.init({
+    proxy: "http:dev.rwd.ee"
+  });
+  watch("src/js/**/*.js", getJsAndMinify);
+  watch("src/scss/**/*.scss", prepareSass);
+  watch(distGlobs).on("change", transferFiles && browserSync.reload);
+};
+
+exports.default = series(
+  parallel(copyAssets, prepareSass, getJsAndMinify),
+  zipTemplate
+);
