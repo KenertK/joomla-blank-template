@@ -1,13 +1,14 @@
 {
-  "name": "joomla-base-template",
+  "name": "joomla-blank-template",
   "version": "1.0.0",
-  "description": "Joomla 3.x base template",
+  "description": "Joomla 3.x blank template",
   "main": "index.php",
   "scripts": {
-    "build": "webpack --mode=production"
+    "dev": "gulp",
+    "build": "gulp build"
   },
   "author": "Kenert Kulu",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.4.0",
     "bootstrap": "^4.5.0",
@@ -18,7 +19,6 @@
     "autoprefixer": "^9.8.0",
     "browser-sync": "^2.26.7",
     "gulp": "^4.0.2",
-    "gulp-cli": "^2.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.1.0",
