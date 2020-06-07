@@ -23,6 +23,7 @@
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.1.0",
     "gulp-uglify": "^3.0.2",
+    "gulp-util": "^3.0.8",
     "gulp-zip": "^5.0.1",
     "postcss-flexboxfixer": "0.0.5"
   }
