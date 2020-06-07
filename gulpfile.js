@@ -36,6 +36,7 @@ const getJsAndMinify = () =>
 const distGlobs = [
   "**/*",
   "!package.json",
+  "!README.md",
   "!auth.js",
   "!auth.example.js",
   "!package-lock.json",
