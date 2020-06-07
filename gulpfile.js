@@ -1,5 +1,5 @@
 const path = require("path");
-const { src, dest, parallel, series } = require("gulp");
+const { src, dest, parallel, series, watch } = require("gulp");
 const sass = require("gulp-sass");
 const postcss = require("gulp-postcss");
 const autoprefixer = require("autoprefixer");
@@ -8,11 +8,13 @@ const uglify = require("gulp-uglify");
 const browserSync = require("browser-sync").create();
 const zip = require("gulp-zip");
 const concat = require("gulp-concat");
+const gutil = require("gulp-util");
 const ftp = require("vinyl-ftp");
+const auth = require("./auth");
 
 const copyAssets = () => src("src/assets/**").pipe(dest("dist/"));
 
-const prepareSass = () =>
+const processSass = () =>
   src("src/sass/**/*.scss")
     .pipe(sass({ outputStyle: "compressed" }))
     .pipe(postcss([autoprefixer()]))
@@ -34,6 +36,8 @@ const getJsAndMinify = () =>
 const distGlobs = [
   "**/*",
   "!package.json",
+  "!auth.js",
+  "!auth.example.js",
   "!package-lock.json",
   "!.gitignore",
   "!gulpfile.js",
@@ -48,27 +52,46 @@ const zipTemplate = () =>
 
 const transferFiles = () => {
   const conn = ftp.create({
-    host: "mywebsite.tld",
-    user: "me",
-    password: "mypass",
+    host: auth.host,
+    user: auth.username,
+    password: auth.password,
     parallel: 10
+    // log: gutil.log
   });
 
-  return src(globs, { base: ".", buffer: false })
-    .pipe(conn.newer("/public_html"))
-    .pipe(conn.dest("/public_html"));
+  return src(distGlobs, { base: ".", buffer: false })
+    .pipe(conn.newer(auth.remotePath))
+    .pipe(conn.dest(auth.remotePath));
 };
 
 const serveSite = () => {
   browserSync.init({
-    proxy: "http:dev.rwd.ee"
+    proxy: auth.websiteProxy
   });
-  watch("src/js/**/*.js", getJsAndMinify);
-  watch("src/scss/**/*.scss", prepareSass);
-  watch(distGlobs).on("change", transferFiles && browserSync.reload);
+  watch("src/js/**/*.js").on(
+    "change",
+    series(getJsAndMinify, transferFiles, browserSync.reload)
+  );
+  watch("src/sass/**/*.scss").on(
+    "change",
+    series(processSass, transferFiles, browserSync.reload)
+  );
+  watch([...distGlobs, "!dist/**"]).on(
+    "change",
+    series(transferFiles, browserSync.reload)
+  );
+  watch("src/assets/**").on(
+    "change",
+    series(copyAssets, transferFiles, browserSync.reload)
+  );
 };
 
 exports.default = series(
-  parallel(copyAssets, prepareSass, getJsAndMinify),
+  parallel(copyAssets, processSass, getJsAndMinify),
+  transferFiles,
+  serveSite
+);
+exports.build = series(
+  parallel(copyAssets, processSass, getJsAndMinify),
   zipTemplate
 );
