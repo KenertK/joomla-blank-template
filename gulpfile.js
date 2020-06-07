@@ -11,6 +11,7 @@ const concat = require("gulp-concat");
 const gutil = require("gulp-util");
 const ftp = require("vinyl-ftp");
 const auth = require("./auth");
+const babel = require("gulp-babel");
 
 const copyAssets = () => src("src/assets/**").pipe(dest("dist/"));
 
@@ -22,7 +23,7 @@ const processSass = () =>
     .pipe(concat("bundle.min.css"))
     .pipe(dest("dist/"));
 
-const getJsAndMinify = () =>
+const getJs = () =>
   src([
     "node_modules/jquery/dist/jquery.min.js",
     "node_modules/@popperjs/core/dist/umd/popper.min.js",
@@ -30,6 +31,21 @@ const getJsAndMinify = () =>
     "src/js/**/*.js"
   ])
     .pipe(concat("bundle.min.js"))
+    .pipe(dest("dist/"));
+
+const getJsAndTranspile = () =>
+  src([
+    "node_modules/jquery/dist/jquery.min.js",
+    "node_modules/@popperjs/core/dist/umd/popper.min.js",
+    "node_modules/bootstrap/dist/js/bootstrap.min.js",
+    "src/js/**/*.js"
+  ])
+    .pipe(concat("bundle.min.js"))
+    .pipe(
+      babel({
+        presets: ["@babel/preset-env"]
+      })
+    )
     .pipe(uglify())
     .pipe(dest("dist/"));
 
@@ -71,7 +87,7 @@ const serveSite = () => {
   });
   watch("src/js/**/*.js").on(
     "change",
-    series(getJsAndMinify, transferFiles, browserSync.reload)
+    series(getJs, transferFiles, browserSync.reload)
   );
   watch("src/sass/**/*.scss").on(
     "change",
@@ -88,11 +104,11 @@ const serveSite = () => {
 };
 
 exports.default = series(
-  parallel(copyAssets, processSass, getJsAndMinify),
+  parallel(copyAssets, processSass, getJs),
   transferFiles,
   serveSite
 );
 exports.build = series(
-  parallel(copyAssets, processSass, getJsAndMinify),
+  parallel(copyAssets, processSass, getJsAndTranspile),
   zipTemplate
 );
