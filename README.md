@@ -1,6 +1,6 @@
 # Joomla Blank Template
 
-This is a blank baseline template for Joomla 3.x remote template development that comes prepackaged with SASS, Bootstrap, jQuery and Popper.js and uses Gulp as a task runner.
+This is a blank baseline template for Joomla 3.x remote template development that comes prepackaged with SASS, Bootstrap, jQuery, Popper.js, browserSync, file transferring and uses Gulp as a task runner.
 
 This
 
