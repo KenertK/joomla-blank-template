@@ -7,9 +7,10 @@ This template is meant for hybrid local-remote development.
 ## Installation
 
 1. Click on "use this template" or clone repo
-2. Once you have the repo, run `npm i` to install all the necessary packages
-3. Run `npm run dev` for development (see below for further information)
-4. Run `npm run build` to build and to generate a zip for easy installation (see below for further information)
+2. Run `npm i -g gulp-cli` to install the gulp-cli as a global package
+3. Once you have the repo, run `npm i` to install all the necessary packages
+4. Run `npm run dev` for development (see below for further information)
+5. Run `npm run build` to build and to generate a zip for easy installation (see below for further information)
 
 ## Config
 
