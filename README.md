@@ -32,4 +32,4 @@ The development process is also set to watch for file changes and to compile and
 
 ## Build
 
-Build is very similar to the development compilation process, except there's no browserSync. Instead it minifies and transpiles all the bundles, plus zips the template so it can be installed through Joomla's extension manager.
+Build is very similar to the development compilation process, except there's no browserSync. Instead it minifies and transpiles all the bundles, plus zips the template so it can be installed through Joomla's extension manager. The .zip file goes one folder above the template folder.
