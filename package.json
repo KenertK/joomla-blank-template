@@ -12,8 +12,7 @@
   "dependencies": {
     "@popperjs/core": "^2.4.0",
     "bootstrap": "^4.5.0",
-    "jquery": "^3.5.1",
-    "vinyl-ftp": "^0.6.1"
+    "jquery": "^3.5.1"
   },
   "devDependencies": {
     "autoprefixer": "^9.8.0",
@@ -25,6 +24,7 @@
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
     "gulp-zip": "^5.0.1",
-    "postcss-flexboxfixer": "0.0.5"
+    "postcss-flexboxfixer": "0.0.5",
+    "vinyl-ftp": "^0.6.1"
   }
 }
