@@ -23,9 +23,11 @@ Current development compilation process:
 
 1. Copies over the assets from src/assets/ to dist/
 2. Processes all the SASS files from sass/ and compiles it into a minified CSS bundle (bundle.min.css)
-3. Gets minifed jQuery, Bootstrap and Popper files and adds your own scripts from js/ at the end.
+3. Gets minifed jQuery, Bootstrap and Popper files and adds your own minified scripts from js/ at the end
 4. Transfers the files over to your designated host (config in auth.js)
 5. Initializes browserSync and sets it to proxy the remote host, so it automatically reloads the page once files have been compiled and transferred
+
+The development process is also set to watch for file changes and to compile and then upload them automatically to the designated remote site.
 
 ## Build
 
