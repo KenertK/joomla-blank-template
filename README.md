@@ -2,7 +2,7 @@
 
 This is a blank baseline template for Joomla 3.x remote template development that comes prepackaged with SASS, Bootstrap, jQuery, Popper.js, browserSync, file transferring and uses Gulp as a task runner.
 
-This
+This template is meant for hybrid local-remote development.
 
 ## Installation
 
