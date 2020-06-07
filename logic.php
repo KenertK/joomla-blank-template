@@ -14,5 +14,6 @@ $this->setGenerator(null);
 $this->_scripts = array();
 unset($this->_script['text/javascript']);
 
+// Load transpiled and minified JS and CSS
 $doc->addStyleSheet($tpath . '/dist/bundle.min.css');
 $doc->addScript($tpath . '/dist/bundle.min.js');
