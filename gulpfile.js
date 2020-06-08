@@ -16,34 +16,29 @@ const babel = require("gulp-babel");
 const copyAssets = () => src("src/assets/**").pipe(dest("dist/"));
 
 const processSass = () =>
-  src("src/sass/**/*.scss")
+  src("src/sass/global/imports.scss")
     .pipe(sass({ outputStyle: "compressed" }))
     .pipe(postcss([autoprefixer()]))
     .pipe(postcss([flexboxfixer()]))
     .pipe(concat("bundle.min.css"))
     .pipe(dest("dist/"));
 
+const jsSrc = [
+  "node_modules/jquery/dist/jquery.min.js",
+  "node_modules/@popperjs/core/dist/umd/popper.min.js",
+  "node_modules/bootstrap/dist/js/bootstrap.min.js",
+  "src/js/**/*.js",
+];
+
 const getJs = () =>
-  src([
-    "node_modules/jquery/dist/jquery.min.js",
-    "node_modules/@popperjs/core/dist/umd/popper.min.js",
-    "node_modules/bootstrap/dist/js/bootstrap.min.js",
-    "src/js/**/*.js"
-  ])
-    .pipe(concat("bundle.min.js"))
-    .pipe(dest("dist/"));
+  src(jsSrc).pipe(concat("bundle.min.js")).pipe(dest("dist/"));
 
 const getJsAndTranspile = () =>
-  src([
-    "node_modules/jquery/dist/jquery.min.js",
-    "node_modules/@popperjs/core/dist/umd/popper.min.js",
-    "node_modules/bootstrap/dist/js/bootstrap.min.js",
-    "src/js/**/*.js"
-  ])
+  src(jsSrc)
     .pipe(concat("bundle.min.js"))
     .pipe(
       babel({
-        presets: ["@babel/preset-env"]
+        presets: ["@babel/preset-env"],
       })
     )
     .pipe(uglify())
@@ -59,7 +54,7 @@ const distGlobs = [
   "!.gitignore",
   "!gulpfile.js",
   "!src/**",
-  "!node_modules/**"
+  "!node_modules/**",
 ];
 
 const zipTemplate = () =>
@@ -72,7 +67,7 @@ const transferFiles = () => {
     host: auth.host,
     user: auth.username,
     password: auth.password,
-    parallel: 10
+    parallel: 10,
     // log: gutil.log
   });
 
@@ -83,7 +78,7 @@ const transferFiles = () => {
 
 const serveSite = () => {
   browserSync.init({
-    proxy: auth.websiteProxy
+    proxy: auth.websiteProxy,
   });
   watch("src/js/**/*.js").on(
     "change",
